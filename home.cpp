@@ -1,15 +1,22 @@
 #include<iostream>
 #include<windows.h>
 #include<fstream>
+#include<sstream>
 #include<conio.h>
 using namespace std;
 class homeClass{
 	public:
+
+		string cfname,clname,caddress,cdate,billno,contact;
+		int itenArr[10],noOfQty[10];
 		char tempAsk;
 		char select;
-		string SerialNo, ItemName;
+		int SerialNo;
+		string ItemName;
 		int priceofItem;
     public:
+	void createBill();
+
 	void insertInventory();
 	void inventoryPrice();
     HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -37,7 +44,7 @@ void intro(){
 	    	Sleep(20);
 		}
 		SetConsoleTextAttribute(h,4);
-	cout<<"\n\n\t\t\t\t\t\t\t";
+	cout<<"\n\n\t\t\t\t\t\t\t\t";
 	cout<<"|";Sleep(60);
 	cout<<"<";Sleep(60);
 	cout<<"-";Sleep(60);
@@ -108,6 +115,11 @@ cout<<"\t\t\t-------------------------------------------------------------------
 	
 	
 	switch(select){
+		case '1' :
+			createBill();
+			getch();
+			menu();
+			break;
 		case '2' :
 			inventoryPrice();
 			getch();
@@ -226,5 +238,110 @@ cout<<"\n\n\n\t\t\t=============================================================
     cout<<"\n\t\t\t NO RECORD FOUND !";
     }
    }
+
+}
+
+void homeClass::createBill(){
+	SetConsoleTextAttribute(h,11);
+
+	system("CLS");
+	int numberOfItem;
+	cout<<"\t\t\t====================================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t==========================================|< HOTEL TECH RAA >|======================================== "<<endl;Sleep(70); 
+    cout<<"\t\t\t====================================================================================================== "<<endl;Sleep(70);
+	
+cout<<"\n\n\n\t\t\t======================================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t===========================================|< CREATE BILL >|============================================ "<<endl;Sleep(70); 
+    cout<<"\t\t\t======================================================================================================== "<<endl;Sleep(70);
+
+	cout<<"\n\t\t\t|-------------------------> ENTER BILL NO : "<<endl;
+	cin>>billno;
+	cout<<"\n\t\t\t|-------------------------> ENTER CUSTOMER FIRST NAME : "<<endl;
+	cin>>cfname;
+	cout<<"\n\t\t\t|-------------------------> ENTER CUSTOMER LAST NAME : "<<endl;
+	cin>>clname;
+	cout<<"\n\t\t\t|-------------------------> ENTER DATE OF ISSUE BILL : "<<endl;
+	cin>>cdate;
+	cout<<"\n\t\t\t|-------------------------> ENTER CUSTOMER ADDRESS : "<<endl;
+	cin>>caddress;
+	cout<<"\n\t\t\t|-------------------------> ENTER NUMBER OF ITEM : "<<endl;
+	cin>>numberOfItem;
+
+	int nnumber=numberOfItem;
+	int i=1;
+	while (numberOfItem != 0)
+	{
+		cout<<"\n\t\t\t|-------------------------> ENTER ITEM SERIAL NO :";
+		cin>>itenArr[i];
+		cout<<"\n\t\t\t|-------------------------> ENTER ITEM QUANTITY :";
+		cin>>noOfQty[i];
+
+		i++;
+		numberOfItem--;
+
+	}
+		
+	SetConsoleTextAttribute(h,4);
+	fstream file("inventory.txt");
+	cout<<"Genereting Successfully !";
+	getch();
+	system("cls");
+
+	cout<<"\t\t\t================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t================================|< HOTEL TECH RAA >|============================== "<<endl;Sleep(70); 
+    cout<<"\t\t\t===========================|BADIKEDAR-05, DHAMIGAU DOTI|========================== "<<endl;Sleep(70);
+	cout<<"\t\t\t================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t================================================================================== "<<endl;Sleep(70);
+	cout<<"\t\t\t                                     BILL-SHEET                                    "<<endl;Sleep(70);
+	cout<<"\t\t\t                                     ==========                                    "<<endl;Sleep(70);
+	cout<<"\t\t\t                                                         DATE : "<<cdate<<endl;Sleep(70);
+
+	cout<<"\t\t\t     CUSTOMER NAME : "<<cfname<<" "<<clname;Sleep(70);
+	cout<<"\t\t\t     CUSTOMER ADDRESS : "<<caddress<<", Kailali ."<<endl;Sleep(70);
+	cout<<"\t\t\t     CUSTOMER CONTACT NUMBER : "<<contact<<endl;Sleep(70);
+	cout<<"\t\t\t-----------------------------------------------------------------------------------"<<endl;Sleep(70);
+	cout<<"\t\t\tSERIAL NO              PRODUCTS              QTY                PRICE             "<<endl;Sleep(70);
+	cout<<"\t\t\t-----------------------------------------------------------------------------------"<<endl;Sleep(70);
+
+	string line;
+while(getline(file,line)){
+    istringstream iss(line);
+//<<sname <<" "<<scontactno<<" "<<srollno<<" "<<saddress<<
+    if(iss>> SerialNo >> ItemName >> priceofItem ){
+       // cout<<sname;
+       for (int i = 0; i < nnumber; i++)
+	   {
+		 if(itenArr[i] == SerialNo){
+            
+            cout<<"  "<<SerialNo<<"              ";
+            cout<<""<<ItemName<<"        ";
+            cout<<noOfQty[i]<<"        ";
+            cout<<priceofItem<<"  \n";
+            break;
+        }
+	   }
+	   
+    }
+}
+	
+
+
+
+
+
+
+
+
+
+	
+
+	
+
+	
+
+
+
+
 
 }
